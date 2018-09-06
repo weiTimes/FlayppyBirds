@@ -2,7 +2,7 @@
  * @Author: 叶威 
  * @Date: 2018-09-06 10:07:28 
  * @Last Modified by: 叶威
- * @Last Modified time: 2018-09-06 10:31:42
+ * @Last Modified time: 2018-09-06 16:04:49
  * 
  * 初始化整个游戏的精灵，作为整个游戏的入口
  */
@@ -10,6 +10,9 @@ import { ResourceLoader } from './js/base/ResourceLoader.js';
 import { Director } from './js/Director.js';
 import { BackGround } from './js/runtime/BackGround.js';
 import { DataStore } from './js/base/DataStore.js';
+import { Land } from './js/runtime/Land.js';
+import { UpPencil } from './js/runtime/UpPencil.js';
+import { DownPencil } from './js/runtime/DownPencil.js';
 
 export class Main {
   constructor() {
@@ -17,6 +20,7 @@ export class Main {
     this.canvas = document.getElementById('game_canvas');
     this.ctx = this.canvas.getContext('2d');
     this.dataStore = DataStore.getInstance();
+    this.director = Director.getInstance();
 
     const loader = ResourceLoader.create();
     loader.onloaded(map => this.onResourceFirstLoaded(map));
@@ -39,8 +43,12 @@ export class Main {
   }
 
   init() {
-    this.dataStore.put('background', BackGround);
+    this.dataStore
+      .put('background', BackGround)
+      .put('land', Land)
+      .put('pencils', []);
 
-    Director.getInstance().run();
+    this.director.createPencil(); // 创建一组铅笔
+    this.director.run();
   }
 }
