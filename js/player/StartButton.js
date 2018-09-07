@@ -7,6 +7,7 @@
  * 开始按钮类
  */
 import { Sprite } from '../base/Sprite.js';
+import { DataStore } from '../base/DataStore.js';
 
 export class StartButton extends Sprite {
   constructor() {
@@ -17,8 +18,8 @@ export class StartButton extends Sprite {
       0,
       image.width,
       image.height,
-      (window.innerWidth - image.width) / 2,
-      (window.innerHeight - image.height) / 2.5,
+      (DataStore.getInstance().canvas.width - image.width) / 2,
+      (DataStore.getInstance().canvas.height - image.height) / 2.5,
       image.width,
       image.height
     );

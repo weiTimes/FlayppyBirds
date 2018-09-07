@@ -15,11 +15,12 @@ import { UpPencil } from './js/runtime/UpPencil.js';
 import { DownPencil } from './js/runtime/DownPencil.js';
 import { Birds } from './js/player/Birds.js';
 import { StartButton } from './js/player/StartButton.js';
+import { Score } from './js/player/Score.js';
 
 export class Main {
   constructor() {
     // 初始化画布
-    this.canvas = document.getElementById('game_canvas');
+    this.canvas = wx.createCanvas();
     this.ctx = this.canvas.getContext('2d');
     this.dataStore = DataStore.getInstance();
     this.director = Director.getInstance();
@@ -38,6 +39,7 @@ export class Main {
    */
   onResourceFirstLoaded(map) {
     // 需长期保留的数据放在类的成员变量中
+    this.dataStore.canvas = this.canvas;
     this.dataStore.ctx = this.ctx;
     this.dataStore.res = map; // 图片资源
 
@@ -52,7 +54,8 @@ export class Main {
       .put('land', Land)
       .put('pencils', [])
       .put('birds', Birds)
-      .put('startButton', StartButton);
+      .put('startButton', StartButton)
+      .put('score', Score);
 
     this.registerEvent();
 
@@ -66,9 +69,7 @@ export class Main {
    * @memberof Main
    */
   registerEvent() {
-    this.canvas.addEventListener('touchstart', e => {
-      e.preventDefault();
-
+    wx.onTouchStart(() => {
       if (this.director.isGameOver) {
         this.init();
       } else {

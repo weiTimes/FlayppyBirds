@@ -8,6 +8,7 @@
  */
 import { Sprite } from '../base/Sprite.js';
 import { Director } from '../Director.js';
+import { DataStore } from '../base/DataStore.js';
 
 export class Land extends Sprite {
   constructor() {
@@ -20,7 +21,7 @@ export class Land extends Sprite {
       image.width,
       image.height,
       0,
-      window.innerHeight - image.height,
+      DataStore.getInstance().canvas.height - image.height,
       image.width,
       image.height
     );
@@ -31,7 +32,7 @@ export class Land extends Sprite {
 
   draw() {
     this.landX = this.landX + this.landSpeed;
-    if (this.landX > this.img.width - window.innerWidth) {
+    if (this.landX > this.img.width - DataStore.getInstance().canvas.width) {
       this.landX = 0;
     }
 

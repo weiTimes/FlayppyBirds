@@ -26,8 +26,8 @@ export class Director {
   }
 
   createPencil() {
-    const minTop = window.innerHeight / 8;
-    const maxTop = window.innerHeight / 2;
+    const minTop = DataStore.getInstance().canvas.height / 8;
+    const maxTop = DataStore.getInstance().canvas.height / 2;
     const top = minTop + Math.random() * (maxTop - minTop);
 
     this.dataStore.get('pencils').push(new UpPencil(top));
@@ -76,6 +76,8 @@ export class Director {
     const birds = this.dataStore.get('birds');
     const land = this.dataStore.get('land');
     const pencils = this.dataStore.get('pencils');
+    const score = this.dataStore.get('score');
+
     // 地板的撞击判断
 
     if (birds.y[0] + birds.birdsHeight[0] >= land.y) {
@@ -107,6 +109,12 @@ export class Director {
         return;
       }
     }
+
+    // 加分逻辑
+    if (birds.birdXs[0] > pencils[0].x + pencils[0].width && score.isScore) {
+      score.isScore = false;
+      score.scoreNumber++;
+    }
   }
 
   run() {
@@ -120,9 +128,11 @@ export class Director {
         // 第一组铅笔右侧正好在超出左侧屏幕，将第一组推出数组
         pencils.shift();
         pencils.shift();
+        this.dataStore.get('score').isScore = true;
       }
       if (
-        pencils[0].x <= (window.innerWidth - pencils[0].width) / 2 &&
+        pencils[0].x <=
+          (DataStore.getInstance().canvas.width - pencils[0].width) / 2 &&
         pencils.length === 2
       ) {
         // 创建一组铅笔
@@ -133,6 +143,7 @@ export class Director {
       });
 
       this.dataStore.get('land').draw();
+      this.dataStore.get('score').draw();
       this.dataStore.get('birds').draw();
 
       let timer = requestAnimationFrame(() => this.run()); // 性能高，根据浏览器的刷新速率
