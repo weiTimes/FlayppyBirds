@@ -2,7 +2,7 @@
  * @Author: 叶威 
  * @Date: 2018-09-06 10:07:28 
  * @Last Modified by: 叶威
- * @Last Modified time: 2018-09-07 11:53:58
+ * @Last Modified time: 2018-09-07 17:48:49
  * 
  * 初始化整个游戏的精灵，作为整个游戏的入口
  */
@@ -11,11 +11,10 @@ import { Director } from './js/Director.js';
 import { BackGround } from './js/runtime/BackGround.js';
 import { DataStore } from './js/base/DataStore.js';
 import { Land } from './js/runtime/Land.js';
-import { UpPencil } from './js/runtime/UpPencil.js';
-import { DownPencil } from './js/runtime/DownPencil.js';
 import { Birds } from './js/player/Birds.js';
 import { StartButton } from './js/player/StartButton.js';
 import { Score } from './js/player/Score.js';
+import { ApiExamples } from './js/ApiExamples.js';
 
 export class Main {
   constructor() {
@@ -32,6 +31,19 @@ export class Main {
   }
 
   /**
+   * 创建背景音乐
+   *
+   * @memberof Main
+   */
+  createBackgroundMusic() {
+    const bgm = wx.createInnerAudioContext();
+    // bgm.obeyMuteSwitch = true; // 在ios静音模式下也可以播放音乐
+    bgm.autoplay = true;
+    bgm.loop = true;
+    bgm.src = 'audios/bgm.mp3';
+  }
+
+  /**
    * 图片资源加载完成后的执行函数
    *
    * @param {*} map
@@ -43,6 +55,9 @@ export class Main {
     this.dataStore.ctx = this.ctx;
     this.dataStore.res = map; // 图片资源
 
+    const examples = new ApiExamples();
+    examples.socketRequest();
+    // this.createBackgroundMusic();
     this.init();
   }
 

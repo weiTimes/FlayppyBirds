@@ -112,6 +112,11 @@ export class Director {
 
     // 加分逻辑
     if (birds.birdXs[0] > pencils[0].x + pencils[0].width && score.isScore) {
+      wx.vibrateShort({
+        success: function() {
+          console.log('振动成功');
+        }
+      });
       score.isScore = false;
       score.scoreNumber++;
     }
@@ -152,6 +157,7 @@ export class Director {
       this.dataStore.get('startButton').draw();
       cancelAnimationFrame(this.dataStore.get('timer'));
       this.dataStore.destory();
+      wx.triggerGC(); // 加快垃圾回收机制
     }
   }
 }
