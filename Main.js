@@ -2,7 +2,7 @@
  * @Author: 叶威 
  * @Date: 2018-09-06 10:07:28 
  * @Last Modified by: 叶威
- * @Last Modified time: 2018-09-06 16:04:49
+ * @Last Modified time: 2018-09-07 11:53:58
  * 
  * 初始化整个游戏的精灵，作为整个游戏的入口
  */
@@ -13,6 +13,8 @@ import { DataStore } from './js/base/DataStore.js';
 import { Land } from './js/runtime/Land.js';
 import { UpPencil } from './js/runtime/UpPencil.js';
 import { DownPencil } from './js/runtime/DownPencil.js';
+import { Birds } from './js/player/Birds.js';
+import { StartButton } from './js/player/StartButton.js';
 
 export class Main {
   constructor() {
@@ -43,12 +45,35 @@ export class Main {
   }
 
   init() {
+    this.director.isGameOver = false;
+
     this.dataStore
       .put('background', BackGround)
       .put('land', Land)
-      .put('pencils', []);
+      .put('pencils', [])
+      .put('birds', Birds)
+      .put('startButton', StartButton);
+
+    this.registerEvent();
 
     this.director.createPencil(); // 创建一组铅笔
     this.director.run();
+  }
+
+  /**
+   * 注册事件
+   *
+   * @memberof Main
+   */
+  registerEvent() {
+    this.canvas.addEventListener('touchstart', e => {
+      e.preventDefault();
+
+      if (this.director.isGameOver) {
+        this.init();
+      } else {
+        this.director.birdsEvent();
+      }
+    });
   }
 }
