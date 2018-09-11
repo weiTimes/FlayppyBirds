@@ -1,4 +1,7 @@
 # 小鸟飞
+
+![Flappybird](https://ws1.sinaimg.cn/large/0069RVTdgy1fv5f71u365g30840eeu0y.gif)
+
 ## 搭建框架
 ## 使用到的设计模式
 * 工厂模式

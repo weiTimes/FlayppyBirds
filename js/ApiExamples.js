@@ -1,4 +1,12 @@
 export class ApiExamples {
+  downloadImage() {
+    wx.downloadFile({
+      url: 'http://t2.hddhhn.com/uploads/tu/201610/198/scx30045vxd.jpg',
+      success: temp => {
+        console.log(JSON.stringify(temp));
+      }
+    });
+  }
   socketRequest() {
     wx.connectSocket({
       url: 'ws://127.0.0.1:8282/',

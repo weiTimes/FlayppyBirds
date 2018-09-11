@@ -2,7 +2,7 @@
  * @Author: 叶威 
  * @Date: 2018-09-06 10:07:28 
  * @Last Modified by: 叶威
- * @Last Modified time: 2018-09-07 17:48:49
+ * @Last Modified time: 2018-09-07 20:07:49
  * 
  * 初始化整个游戏的精灵，作为整个游戏的入口
  */
@@ -37,7 +37,7 @@ export class Main {
    */
   createBackgroundMusic() {
     const bgm = wx.createInnerAudioContext();
-    // bgm.obeyMuteSwitch = true; // 在ios静音模式下也可以播放音乐
+    bgm.obeyMuteSwitch = true; // 在ios静音模式下也可以播放音乐
     bgm.autoplay = true;
     bgm.loop = true;
     bgm.src = 'audios/bgm.mp3';
@@ -55,8 +55,8 @@ export class Main {
     this.dataStore.ctx = this.ctx;
     this.dataStore.res = map; // 图片资源
 
-    const examples = new ApiExamples();
-    examples.socketRequest();
+    const examples = new ApiExamples(); // 测试类
+    examples.downloadImage();
     // this.createBackgroundMusic();
     this.init();
   }
